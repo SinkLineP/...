@@ -7,34 +7,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 const initalState = {
-  alphabet: [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
-  ],
   users: [],
 };
 
@@ -44,11 +16,6 @@ function employees(state = initalState, action) {
       return {
         ...state,
         users: [...state.users, action.payload],
-      };
-    case 'ADD_ALPHABET':
-      return {
-        ...state,
-        alphabet: [...state.alphabet, action.payload],
       };
 
     default:

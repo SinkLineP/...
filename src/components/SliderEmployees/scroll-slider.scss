@@ -1,0 +1,30 @@
+.container {
+    max-width: 50%;
+    margin-top: 20px;
+}
+
+.items {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+
+.items * > * {
+    margin-left: 20px;
+}
+
+.item {
+    border: 1px solid gray;
+    margin-left: 20px;
+    min-width: 200px;
+}
+
+.item-liter {
+    margin-left: 35%;
+}
+
+button {
+    cursor: pointer;
+}
