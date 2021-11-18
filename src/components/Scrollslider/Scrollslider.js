@@ -9,24 +9,6 @@ const Scrollslider = (props) => {
     scrollX: 0,
   });
 
-  // useEffect(() => {
-  //   const el = ref.current;
-  //   if (el) {
-  //     const onWheel = (e) => {
-  //       e.preventDefault();
-  //       el.scrollTo({
-  //         left: el.scrollLeft + e.deltaY * 4,
-  //         behavior: 'smooth',
-  //       });
-  //     };
-
-  //     el.addEventListener('wheel', onWheel);
-  //     return () => {
-  //       el.removeEventListener('wheel', onWheel);
-  //     };
-  //   }
-  // }, []);
-
   const onMouseMove = (e) => {
     if (ref && ref.current && !ref.current.contains(e.target)) {
       return;

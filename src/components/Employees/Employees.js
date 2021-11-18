@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Scrollslider from '../Scrollslider/Scrollslider';
-import './scroll-slider.scss';
+import './Employees.scss';
 
-class SliderEmployees extends Component {
+class Employees extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +20,7 @@ class SliderEmployees extends Component {
       response.data.map((item) => {
         this.props.onAddUsers(item);
       });
+      this.filterUsers();
     });
   };
 
@@ -45,8 +46,7 @@ class SliderEmployees extends Component {
   render() {
     return (
       <div>
-        <p>Test - Employees</p>
-        <button onClick={this.filterUsers}>Filter Name</button>
+        <p>Employees</p>
         <br />
         <div className='container'>
           <Scrollslider _class='items'>
@@ -94,7 +94,6 @@ class SliderEmployees extends Component {
 
 export default connect(
   (state) => ({
-    storeAlphabet: state.alphabet,
     storeUsers: state.users,
   }),
   (dispatch) => ({
@@ -102,4 +101,4 @@ export default connect(
       dispatch({ type: 'ADD_USERS', payload: addUsers });
     },
   })
-)(SliderEmployees);
+)(Employees);
