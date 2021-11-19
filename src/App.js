@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import Employees from './components/Employees/Employees.js';
+import Filter from './components/Filter/Filter.js';
 
 export default class App extends Component {
   render() {
     return (
       <div>
-        <Employees />
+        <Filter />
       </div>
     );
   }

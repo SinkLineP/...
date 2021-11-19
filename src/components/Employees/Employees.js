@@ -36,6 +36,7 @@ class Employees extends Component {
       return r;
     }, {});
 
+    console.log(data);
     let result = Object.values(data);
     console.log(result);
     this.setState({
