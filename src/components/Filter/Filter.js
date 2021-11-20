@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Scrollslider from '../Scrollslider/Scrollslider';
 import axios from 'axios';
 import './Filter.scss';
+import OpinionPoll from '../OpinionPoll/OpinionPoll';
 
 class Filteremployees extends Component {
   constructor(props) {
@@ -18,7 +19,15 @@ class Filteremployees extends Component {
 
     axios.get(baseUrl).then((response) => {
       response.data.map((item) => {
-        this.props.onAddUsers(item);
+        const { id, firstName, lastName, dob } = item;
+        const el = {
+          id: id,
+          firstName: firstName,
+          lastName: lastName,
+          dob: dob,
+          active: false,
+        };
+        this.props.onAddUsers(el);
       });
       this.filterUsers();
     });
@@ -70,7 +79,7 @@ class Filteremployees extends Component {
                               return (
                                 <>
                                   <p>{item.firstName + ' ' + item.lastName}</p>
-                                  <input
+                                  {/* <input
                                     type='radio'
                                     value={false}
                                     name={item.id}
@@ -85,7 +94,11 @@ class Filteremployees extends Component {
                                     name={item.id}
                                     data-id='not-active'
                                   />
-                                  <label htmlFor='not-active'>active</label>
+                                  <label htmlFor='not-active'>active</label> */}
+                                  <OpinionPoll
+                                    inputName={item.id}
+                                    item={item}
+                                  />
                                 </>
                               );
                             })}
@@ -102,7 +115,16 @@ class Filteremployees extends Component {
             <div className='employees-birthday-title'>
               <h1>Employees Birthday</h1>
             </div>
-            <div className='employees-birthday-container'></div>
+            <div className='employees-birthday-container'>
+              {this.props.storeUsers.map((item) => {
+                if (item.active == true) {
+                  console.log(item);
+                  return item;
+                } else {
+                  return <p>No Employees</p>;
+                }
+              })}
+            </div>
           </div>
         </div>
       </>

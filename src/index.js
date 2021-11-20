@@ -10,6 +10,16 @@ const initalState = {
   users: [],
 };
 
+function updateRecord(state, id, changeActive) {
+  const newUsers = state.users.map((rec) => {
+    if (rec.id === id) {
+      return { ...rec, active: changeActive };
+    }
+    return rec;
+  });
+  return { ...state, users: newUsers };
+}
+
 function employees(state = initalState, action) {
   switch (action.type) {
     case 'ADD_USERS':
@@ -17,6 +27,8 @@ function employees(state = initalState, action) {
         ...state,
         users: [...state.users, action.payload],
       };
+    case 'UPDATE_USERS':
+      return updateRecord(state, action.payload.id, action.payload.active);
 
     default:
       return state;
