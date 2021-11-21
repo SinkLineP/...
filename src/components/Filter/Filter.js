@@ -5,7 +5,7 @@ import axios from 'axios';
 import './Filter.scss';
 import OpinionPoll from '../OpinionPoll/OpinionPoll';
 
-class Filteremployees extends Component {
+class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,11 +13,11 @@ class Filteremployees extends Component {
     };
   }
 
-  componentDidMount = () => {
+  async componentDidMount() {
     const baseUrl =
       'https://yalantis-react-school-api.yalantis.com/api/task0/users';
 
-    axios.get(baseUrl).then((response) => {
+    await axios.get(baseUrl).then((response) => {
       response.data.map((item) => {
         const { id, firstName, lastName, dob } = item;
         const el = {
@@ -25,13 +25,13 @@ class Filteremployees extends Component {
           firstName: firstName,
           lastName: lastName,
           dob: dob,
-          active: false,
+          active: 'false',
         };
         this.props.onAddUsers(el);
       });
       this.filterUsers();
     });
-  };
+  }
 
   filterUsers = () => {
     let groups = Object.fromEntries(
@@ -56,7 +56,6 @@ class Filteremployees extends Component {
   };
 
   render() {
-    console.log(this.state.sortUsers);
     return (
       <>
         <div className='two-blocks'>
@@ -74,35 +73,35 @@ class Filteremployees extends Component {
                         {element[1].children.length == 0 ? (
                           <p>No Employees</p>
                         ) : (
-                          <p>
+                          <div>
                             {element[1].children.map((item) => {
-                              return (
-                                <>
-                                  <p>{item.firstName + ' ' + item.lastName}</p>
-                                  {/* <input
-                                    type='radio'
-                                    value={false}
-                                    name={item.id}
-                                    data-id='active'
-                                    defaultChecked={true}
-                                  />
-                                  <label htmlFor='active'>not active</label>
-                                  <br />
-                                  <input
-                                    type='radio'
-                                    value={true}
-                                    name={item.id}
-                                    data-id='not-active'
-                                  />
-                                  <label htmlFor='not-active'>active</label> */}
-                                  <OpinionPoll
-                                    inputName={item.id}
-                                    item={item}
-                                  />
-                                </>
-                              );
+                              if (item.active == 'true') {
+                                return (
+                                  <>
+                                    <p style={{ color: 'blue' }}>
+                                      {item.firstName + ' ' + item.lastName}
+                                    </p>
+                                    <OpinionPoll
+                                      inputName={item.id}
+                                      item={item}
+                                    />
+                                  </>
+                                );
+                              } else {
+                                return (
+                                  <>
+                                    <p>
+                                      {item.firstName + ' ' + item.lastName}
+                                    </p>
+                                    <OpinionPoll
+                                      inputName={item.id}
+                                      item={item}
+                                    />
+                                  </>
+                                );
+                              }
                             })}
-                          </p>
+                          </div>
                         )}
                       </div>
                     </>
@@ -116,14 +115,30 @@ class Filteremployees extends Component {
               <h1>Employees Birthday</h1>
             </div>
             <div className='employees-birthday-container'>
-              {this.props.storeUsers.map((item) => {
-                if (item.active == true) {
-                  console.log(item);
-                  return item;
-                } else {
-                  return <p>No Employees</p>;
-                }
-              })}
+              <ul>
+                {this.props.storeUsers.map((item, key) => {
+                  if (item.active == 'true') {
+                    return (
+                      <li key={key}>
+                        <b>
+                          {item.firstName +
+                            ' ' +
+                            item.lastName +
+                            ' - ' +
+                            item.dob}
+                        </b>
+                      </li>
+                    );
+                  }
+                })}
+                {/* {() => {
+                  this.props.storeUsers[item.id].active == 'false' ? (
+                    <p>Employees List is empty</p>
+                  ) : (
+                    ''
+                  );
+                }} */}
+              </ul>
             </div>
           </div>
         </div>
@@ -141,4 +156,4 @@ export default connect(
       dispatch({ type: 'ADD_USERS', payload: addUsers });
     },
   })
-)(Filteremployees);
+)(Filter);

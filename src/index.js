@@ -41,7 +41,7 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  console.log('subscribe', store.getState());
+  // console.log('subscribe', store.getState());
 });
 
 ReactDOM.render(

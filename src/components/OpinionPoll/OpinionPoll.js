@@ -9,6 +9,12 @@ class OpinionPoll extends Component {
     };
   }
 
+  // addStyle = (el) => {
+  //   console.log(el);
+  //   el.style.color = 'blue';
+  //   let fullName = el.firstName;
+  // };
+
   handleOnChange = (e) => {
     const { id, firstName, lastName, dob } = this.props.item;
     let element = {
@@ -18,9 +24,10 @@ class OpinionPoll extends Component {
       dob: dob,
       active: e.target.value,
     };
-    console.log(element);
+    // console.log(element);
     this.setState({ selectedOption: e.target.value });
     this.props.onChangeUsers(element);
+    // this.addStyle(element);
   };
 
   render() {
@@ -33,8 +40,8 @@ class OpinionPoll extends Component {
 
     return (
       <>
-        <div className='poll'>
-          <div className='pollOption'>
+        <div>
+          <div>
             {json.choices.map((choice, index) => (
               <label key={index}>
                 <input
