@@ -19,7 +19,6 @@ class Filter extends Component {
       'https://yalantis-react-school-api.yalantis.com/api/task0/users';
 
     await axios.get(baseUrl).then((response) => {
-      // let allUsers = [];
       response.data.map((item) => {
         const { id, firstName, lastName, dob } = item;
         const monthUser = this.createDate(dob).split(' ')[0];
@@ -31,7 +30,6 @@ class Filter extends Component {
           active: 'false',
           month: monthUser,
         };
-        // allUsers.push(el);
         this.props.onAddUsers(el);
       });
       this.filterUsers();
@@ -132,22 +130,25 @@ class Filter extends Component {
   };
 
   render() {
-    let arrayMonths = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    // let activeUsers = [];
-    console.log(this.state.filterUsers);
+    let arrayMonths = ['Employees List is empty'];
+    this.props.storeUsers.map((item) => {
+      if (item.active == 'true') {
+        arrayMonths = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
+      }
+    });
     return (
       <>
         <div className='two-blocks'>
