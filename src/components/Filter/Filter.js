@@ -10,6 +10,7 @@ class Filter extends Component {
     super(props);
     this.state = {
       filterUsers: [],
+      filterBirthdayUsers: [],
     };
   }
 
@@ -18,7 +19,7 @@ class Filter extends Component {
       'https://yalantis-react-school-api.yalantis.com/api/task0/users';
 
     await axios.get(baseUrl).then((response) => {
-      let allUsers = [];
+      // let allUsers = [];
       response.data.map((item) => {
         const { id, firstName, lastName, dob } = item;
         const el = {
@@ -28,7 +29,7 @@ class Filter extends Component {
           dob: dob,
           active: 'false',
         };
-        allUsers.push(el);
+        // allUsers.push(el);
         this.props.onAddUsers(el);
       });
       this.filterUsers();
@@ -72,6 +73,24 @@ class Filter extends Component {
         ];
       }),
     }));
+  };
+
+  sortUserBirthday = () => {
+    let obj = [...this.props.storeUsers];
+    obj.sort((a, b) => a.dob - b.dob);
+    console.log(obj);
+    this.setState({ filterBirthdayUsers: obj });
+  };
+
+  createDate = (date) => {
+    let dateBirthday = new Date(date);
+
+    let formatter = new Intl.DateTimeFormat('en', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    return formatter.format(dateBirthday);
   };
 
   render() {
@@ -138,21 +157,26 @@ class Filter extends Component {
             </div>
             <div className='employees-birthday-container'>
               <ul>
-                {this.props.storeUsers.map((item, key) => {
-                  if (item.active == 'true') {
-                    return (
-                      <li key={key}>
-                        <b>
-                          {item.firstName +
-                            ' ' +
-                            item.lastName +
-                            ' - ' +
-                            item.dob}
-                        </b>
-                      </li>
-                    );
-                  }
-                })}
+                {/* {this.sortUserBirthday} */}
+                {this.props.storeUsers
+                  .sort((a, b) => (new Date(a.dob) > new Date(b.dob) ? 1 : -1))
+                  .sort((a, b) => (new Date(a) > new Date(b) ? 1 : -1))
+                  .map((item, key) => {
+                    if (item.active == 'true') {
+                      return (
+                        <li key={key}>
+                          <b>
+                            {item.firstName +
+                              ' ' +
+                              item.lastName +
+                              ' - ' +
+                              this.createDate(item.dob) +
+                              ' year'}
+                          </b>
+                        </li>
+                      );
+                    }
+                  })}
               </ul>
             </div>
           </div>
