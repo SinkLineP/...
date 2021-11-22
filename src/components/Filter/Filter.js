@@ -22,12 +22,14 @@ class Filter extends Component {
       // let allUsers = [];
       response.data.map((item) => {
         const { id, firstName, lastName, dob } = item;
+        const monthUser = this.createDate(dob).split(' ')[0];
         const el = {
           id: id,
           firstName: firstName,
           lastName: lastName,
           dob: dob,
           active: 'false',
+          month: monthUser,
         };
         // allUsers.push(el);
         this.props.onAddUsers(el);
@@ -75,11 +77,47 @@ class Filter extends Component {
     }));
   };
 
-  sortUserBirthday = () => {
-    let obj = [...this.props.storeUsers];
-    obj.sort((a, b) => a.dob - b.dob);
-    console.log(obj);
-    this.setState({ filterBirthdayUsers: obj });
+  sortUserBirthday = (activeUsers) => {
+    // let reduceArray = [];
+    const users = activeUsers.reduce(
+      (obj, { id, dob, lastName, firstName }) => {
+        const customer = {
+          id: id,
+          firstName: firstName,
+          lastName: lastName,
+          dob: dob,
+        };
+        // console.log(dob);
+        // console.log(lastName);
+        // console.log(this.createDate(dob).split(' ')[0]);
+        const monthDob = this.createDate(dob).split(' ')[0];
+        console.log(monthDob);
+        if (!obj[monthDob]) obj[monthDob] = [];
+        obj[monthDob].push(customer);
+        // app.innerHTML = obj[monthDob];
+        // console.log(obj);
+        // this.setState({
+        //   filterBirthdayUsers: obj,
+        // });
+        let result = Object.value(obj);
+        console.log(result);
+
+        return obj;
+      },
+      {}
+    );
+    // let result = Object.value(users);
+    // reduceArray.push(users);
+    // this.setState({
+    //   filterBirthdayUsers: reduceArray,
+    // });
+    console.log(users);
+    // this.setState({
+    //   filterBirthdayUsers: users,
+    // });
+    // console.log(users);
+    // console.log(users);
+    // return users;
   };
 
   createDate = (date) => {
@@ -94,6 +132,21 @@ class Filter extends Component {
   };
 
   render() {
+    let arrayMonths = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    // let activeUsers = [];
     console.log(this.state.filterUsers);
     return (
       <>
@@ -156,28 +209,76 @@ class Filter extends Component {
               <h1>Employees Birthday</h1>
             </div>
             <div className='employees-birthday-container'>
-              <ul>
-                {/* {this.sortUserBirthday} */}
-                {this.props.storeUsers
-                  .sort((a, b) => (new Date(a.dob) > new Date(b.dob) ? 1 : -1))
-                  .sort((a, b) => (new Date(a) > new Date(b) ? 1 : -1))
-                  .map((item, key) => {
-                    if (item.active == 'true') {
-                      return (
-                        <li key={key}>
-                          <b>
-                            {item.firstName +
-                              ' ' +
-                              item.lastName +
-                              ' - ' +
-                              this.createDate(item.dob) +
-                              ' year'}
-                          </b>
-                        </li>
-                      );
-                    }
-                  })}
-              </ul>
+              <table>
+                <tbody>
+                  <tr>
+                    <ul>
+                      {arrayMonths.map((month) => {
+                        return (
+                          <>
+                            <tr>
+                              <td>
+                                <b>{month}</b>
+                                <br />
+                                {this.props.storeUsers
+                                  .sort((a, b) =>
+                                    a.lastName > b.lastName ? 1 : -1
+                                  )
+                                  .map((userItem) => {
+                                    if (
+                                      month == userItem.month &&
+                                      userItem.active == 'true'
+                                    ) {
+                                      return (
+                                        <li style={{ 'margin-left': 30 }}>
+                                          <i>
+                                            {userItem.firstName +
+                                              ' ' +
+                                              userItem.lastName +
+                                              ' - ' +
+                                              this.createDate(userItem.dob) +
+                                              ' year'}
+                                          </i>
+                                        </li>
+                                      );
+                                    }
+                                  })}
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                      {/* {this.props.storeUsers
+                        .sort((a, b) =>
+                          new Date(a.dob) > new Date(b.dob) ? 1 : -1
+                        )
+                        .map((item) => {
+                          if (item.active == 'true') {
+                            activeUsers.push(item);
+                            this.sortUserBirthday(activeUsers);
+                            // const { users } = this.sortUserBirthday(activeUsers);
+                            console.log(this.state.filterBirthdayUsers);
+                            this.state.filterBirthdayUsers.map((item, key) => {
+                              return (
+                                <li key={key}>
+                                  <td style={{ 'min-width': 200 }}>
+                                    <b>
+                                      {item.firstName + ' ' + item.lastName}
+                                    </b>
+                                  </td>
+                                  <td>
+                                    <b>{this.createDate(item.dob) + ' year'}</b>
+                                  </td>
+                                </li>
+                              );
+                            });
+                          }
+                        })} */}
+                      {/* {console.log(activeUsers)} */}
+                    </ul>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
