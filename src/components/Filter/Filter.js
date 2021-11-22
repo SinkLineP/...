@@ -134,6 +134,8 @@ class Filter extends Component {
     this.props.storeUsers.map((item) => {
       if (item.active == 'true') {
         arrayMonths = [
+          'November',
+          'December',
           'January',
           'February',
           'March',
@@ -144,8 +146,6 @@ class Filter extends Component {
           'August',
           'September',
           'October',
-          'November',
-          'December',
         ];
       }
     });
