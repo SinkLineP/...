@@ -29,55 +29,6 @@ function employees(state = initalState, action) {
       };
     case 'UPDATE_USERS':
       return updateRecord(state, action.payload.id, action.payload.active);
-    // case 'UPDATE_USERS':
-    //   // return {
-    //   //   ...state,
-    //   //   users: [([0][0][1].children[0].active = action.payload.active)],
-    //   // };
-    //   // console.log((state.users[0][0][1].children[0].active = 'true'));
-    //   // console.log(state.users[0][0][1].children[0].active);
-    //   return {
-    //     ...state,
-    //     // users: {
-    //     //   ...state.users,
-    //     //   [0]: {
-    //     //     ...state.users[0],
-    //     //     [0]: {
-    //     //       ...state.users[0][0],
-    //     //       [1]: {
-    //     //         ...state.users[0][0][1],
-    //     //         children: {
-    //     //           ...state.users[0][0][1].children,
-    //     //           [0]: {
-    //     //             ...state.users[0][0][1].children[0],
-    //     //             active: action.payload.active,
-    //     //           },
-    //     //         },
-    //     //       },
-    //     //     },
-    //     //   },
-    //     // },
-    //     users: [
-    //       [
-    //         ...state.users[0],
-    //         [
-    //           ...state.users[0][0],
-    //           {
-    //             ...state.users[0][0][1],
-    //             children: [
-    //               ...state.users[0][0][1].children,
-    //               [
-    //                 ...state.users[0][0][1].children[0],
-    //                 {
-    //                   active: action.payload.active,
-    //                 },
-    //               ],
-    //             ],
-    //           },
-    //         ],
-    //       ],
-    //     ],
-    //   };
 
     default:
       return state;
@@ -89,9 +40,7 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-store.subscribe(() => {
-  // console.log('subscribe', store.getState());
-});
+store.subscribe(() => {});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -102,7 +51,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

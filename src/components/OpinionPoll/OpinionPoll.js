@@ -21,7 +21,6 @@ class OpinionPoll extends Component {
     this.setState({ selectedOption: e.target.value });
     this.props.updateData(element);
     this.props.onChangeUsers(element);
-    // console.log(element.active);
   };
 
   render() {

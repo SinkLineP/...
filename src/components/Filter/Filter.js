@@ -51,11 +51,9 @@ class Filter extends Component {
     }
 
     groups = Object.entries(groups);
-    // console.log(groups);
     this.setState({
       filterUsers: groups,
     });
-    // this.props.onAddUsers(groups);
   };
 
   updateData = (value) => {
@@ -65,38 +63,15 @@ class Filter extends Component {
           element[0],
           {
             children: element[1].children.map((el) => {
-              // console.log(el);
               if (el.id === value.id) {
                 return { ...el, active: value.active };
               }
-              // console.log(el);
               return el;
             }),
           },
         ];
-        // element[1].children.map((el) => {
-        //   // console.log(el);
-        //   if (el.id === value.id) {
-        //     return { ...el, active: value.active };
-        //   }
-        //   // console.log(el);
-        //   return el;
-        // }),
       }),
     }));
-    // log
-    // if (
-    // this.state.filterUsers.map((element) => {
-    //   element[1].children.map((el) => {
-    //     if (el.id === value.id) {
-    //       this.setState({ el, active: value.active });
-    //     }
-    //     // console.log(el);
-    //     return el;
-    //   });
-    // });
-    // this.setState({ active: value });
-    // console.log(this.state.filterUsers);
   };
 
   render() {
@@ -111,11 +86,10 @@ class Filter extends Component {
             <div className='employees-container'>
               <Scrollslider _class='items'>
                 {this.state.filterUsers.map((e) => {
-                  // console.log(e);
                   return (
                     <>
                       <div className='item'>
-                        <b className='item-liter'>{e[1].group}</b>
+                        <b className='item-liter'>{e[0]}</b>
                         {e[1].children.length == 0 ? (
                           <p>No Employees</p>
                         ) : (
