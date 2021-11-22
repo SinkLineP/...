@@ -10,9 +10,9 @@ const initalState = {
   users: [],
 };
 
-function updateRecord(state, id, changeActive) {
+function updateRecord(state, itemId, changeActive) {
   const newUsers = state.users.map((rec) => {
-    if (rec.id === id) {
+    if (rec.id === itemId) {
       return { ...rec, active: changeActive };
     }
     return rec;
@@ -29,6 +29,55 @@ function employees(state = initalState, action) {
       };
     case 'UPDATE_USERS':
       return updateRecord(state, action.payload.id, action.payload.active);
+    // case 'UPDATE_USERS':
+    //   // return {
+    //   //   ...state,
+    //   //   users: [([0][0][1].children[0].active = action.payload.active)],
+    //   // };
+    //   // console.log((state.users[0][0][1].children[0].active = 'true'));
+    //   // console.log(state.users[0][0][1].children[0].active);
+    //   return {
+    //     ...state,
+    //     // users: {
+    //     //   ...state.users,
+    //     //   [0]: {
+    //     //     ...state.users[0],
+    //     //     [0]: {
+    //     //       ...state.users[0][0],
+    //     //       [1]: {
+    //     //         ...state.users[0][0][1],
+    //     //         children: {
+    //     //           ...state.users[0][0][1].children,
+    //     //           [0]: {
+    //     //             ...state.users[0][0][1].children[0],
+    //     //             active: action.payload.active,
+    //     //           },
+    //     //         },
+    //     //       },
+    //     //     },
+    //     //   },
+    //     // },
+    //     users: [
+    //       [
+    //         ...state.users[0],
+    //         [
+    //           ...state.users[0][0],
+    //           {
+    //             ...state.users[0][0][1],
+    //             children: [
+    //               ...state.users[0][0][1].children,
+    //               [
+    //                 ...state.users[0][0][1].children[0],
+    //                 {
+    //                   active: action.payload.active,
+    //                 },
+    //               ],
+    //             ],
+    //           },
+    //         ],
+    //       ],
+    //     ],
+    //   };
 
     default:
       return state;

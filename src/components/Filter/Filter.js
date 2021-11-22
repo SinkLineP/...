@@ -9,7 +9,7 @@ class Filter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortUsers: [],
+      filterUsers: [],
     };
   }
 
@@ -18,6 +18,7 @@ class Filter extends Component {
       'https://yalantis-react-school-api.yalantis.com/api/task0/users';
 
     await axios.get(baseUrl).then((response) => {
+      let allUsers = [];
       response.data.map((item) => {
         const { id, firstName, lastName, dob } = item;
         const el = {
@@ -27,12 +28,12 @@ class Filter extends Component {
           dob: dob,
           active: 'false',
         };
+        allUsers.push(el);
         this.props.onAddUsers(el);
       });
       this.filterUsers();
     });
   }
-
   filterUsers = () => {
     let groups = Object.fromEntries(
       Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ', (group) => [
@@ -50,12 +51,56 @@ class Filter extends Component {
     }
 
     groups = Object.entries(groups);
+    // console.log(groups);
     this.setState({
-      sortUsers: groups,
+      filterUsers: groups,
     });
+    // this.props.onAddUsers(groups);
+  };
+
+  updateData = (value) => {
+    this.setState((prevState) => ({
+      filterUsers: prevState.filterUsers.map((element) => {
+        return [
+          element[0],
+          {
+            children: element[1].children.map((el) => {
+              // console.log(el);
+              if (el.id === value.id) {
+                return { ...el, active: value.active };
+              }
+              // console.log(el);
+              return el;
+            }),
+          },
+        ];
+        // element[1].children.map((el) => {
+        //   // console.log(el);
+        //   if (el.id === value.id) {
+        //     return { ...el, active: value.active };
+        //   }
+        //   // console.log(el);
+        //   return el;
+        // }),
+      }),
+    }));
+    // log
+    // if (
+    // this.state.filterUsers.map((element) => {
+    //   element[1].children.map((el) => {
+    //     if (el.id === value.id) {
+    //       this.setState({ el, active: value.active });
+    //     }
+    //     // console.log(el);
+    //     return el;
+    //   });
+    // });
+    // this.setState({ active: value });
+    // console.log(this.state.filterUsers);
   };
 
   render() {
+    console.log(this.state.filterUsers);
     return (
       <>
         <div className='two-blocks'>
@@ -65,16 +110,17 @@ class Filter extends Component {
             </div>
             <div className='employees-container'>
               <Scrollslider _class='items'>
-                {this.state.sortUsers.map((element) => {
+                {this.state.filterUsers.map((e) => {
+                  // console.log(e);
                   return (
                     <>
                       <div className='item'>
-                        <b className='item-liter'>{element[0]}</b>
-                        {element[1].children.length == 0 ? (
+                        <b className='item-liter'>{e[1].group}</b>
+                        {e[1].children.length == 0 ? (
                           <p>No Employees</p>
                         ) : (
                           <div>
-                            {element[1].children.map((item) => {
+                            {e[1].children.map((item) => {
                               if (item.active == 'true') {
                                 return (
                                   <>
@@ -84,6 +130,7 @@ class Filter extends Component {
                                     <OpinionPoll
                                       inputName={item.id}
                                       item={item}
+                                      updateData={this.updateData}
                                     />
                                   </>
                                 );
@@ -96,6 +143,7 @@ class Filter extends Component {
                                     <OpinionPoll
                                       inputName={item.id}
                                       item={item}
+                                      updateData={this.updateData}
                                     />
                                   </>
                                 );
@@ -131,13 +179,6 @@ class Filter extends Component {
                     );
                   }
                 })}
-                {/* {() => {
-                  this.props.storeUsers[item.id].active == 'false' ? (
-                    <p>Employees List is empty</p>
-                  ) : (
-                    ''
-                  );
-                }} */}
               </ul>
             </div>
           </div>

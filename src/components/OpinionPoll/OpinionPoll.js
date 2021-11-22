@@ -9,12 +9,6 @@ class OpinionPoll extends Component {
     };
   }
 
-  // addStyle = (el) => {
-  //   console.log(el);
-  //   el.style.color = 'blue';
-  //   let fullName = el.firstName;
-  // };
-
   handleOnChange = (e) => {
     const { id, firstName, lastName, dob } = this.props.item;
     let element = {
@@ -24,10 +18,10 @@ class OpinionPoll extends Component {
       dob: dob,
       active: e.target.value,
     };
-    // console.log(element);
     this.setState({ selectedOption: e.target.value });
+    this.props.updateData(element);
     this.props.onChangeUsers(element);
-    // this.addStyle(element);
+    // console.log(element.active);
   };
 
   render() {
@@ -62,53 +56,6 @@ class OpinionPoll extends Component {
     );
   }
 }
-
-// const OpinionPoll = ({ itemId, item }) => {
-//   const [state, setState] = useState({
-//     selectedOption: 'false',
-//   });
-//   const handleOnChange = (e) => {
-//     const { id, firstName, lastName, dob } = item;
-//     let element = {
-//       id: id,
-//       firstName: firstName,
-//       lastName: lastName,
-//       dob: dob,
-//       active: e.target.value,
-//     };
-//     console.log(element);
-//     this.props.onChangeUsers(`{ id: 1, firstName: 'harry' }`);
-//     setState({ selectedOption: e.target.value });
-//   };
-
-//   const json = {
-//     choices: [
-//       { text: 'not active', value: 'false' },
-//       { text: 'active', value: 'true' },
-//     ],
-//   };
-
-//   return (
-//     <div className='poll'>
-//       <div className='pollOption'>
-//         {json.choices.map((choice, index) => (
-//           <label key={index}>
-//             <input
-//               type='radio'
-//               name={itemId}
-//               value={choice.value}
-//               key={index}
-//               checked={state.selectedOption === choice.value}
-//               onChange={(e) => handleOnChange(e)}
-//             />
-//             {choice.text}
-//             <br />
-//           </label>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
 
 export default connect(
   (state) => ({
