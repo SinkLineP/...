@@ -43,9 +43,6 @@ function useLocalState(localItem) {
 const store = createStore(
   employees,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  // localStorage['redux-store']
-  //   ? JSON.parse(localStorage['redux-store'])
-  //   : console.log('localStorage is empty!')
 );
 
 store.subscribe(() => {
