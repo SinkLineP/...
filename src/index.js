@@ -35,12 +35,25 @@ function employees(state = initalState, action) {
   }
 }
 
+function useLocalState(localItem) {
+  const jsonUsers = JSON.stringify(localItem);
+  localStorage.setItem('redux-users', jsonUsers);
+}
+
 const store = createStore(
   employees,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // localStorage['redux-store']
+  //   ? JSON.parse(localStorage['redux-store'])
+  //   : console.log('localStorage is empty!')
 );
 
-store.subscribe(() => {});
+store.subscribe(() => {
+  console.log(store.getState());
+  if (window.location.reload) {
+    return !useLocalState(store.getState());
+  }
+});
 
 ReactDOM.render(
   <React.StrictMode>

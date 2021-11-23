@@ -18,24 +18,43 @@ class Filter extends Component {
     const baseUrl =
       'https://yalantis-react-school-api.yalantis.com/api/task0/users';
 
-    await axios.get(baseUrl).then((response) => {
-      response.data.map((item) => {
-        const { id, firstName, lastName, dob } = item;
+    if (localStorage.length == 0) {
+      await axios.get(baseUrl).then((response) => {
+        response.data.map((item) => {
+          const { id, firstName, lastName, dob } = item;
+          const monthUser = this.createDate(dob).split(' ')[0];
+          const el = {
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            dob: dob,
+            active: 'false',
+            month: monthUser,
+          };
+          this.props.onAddUsers(el);
+        });
+        this.filterUsers(this.props.storeUsers);
+      });
+    } else {
+      const getLocal = JSON.parse(localStorage.getItem('redux-users'));
+      getLocal.users.map((item) => {
+        const { id, firstName, lastName, dob, active } = item;
         const monthUser = this.createDate(dob).split(' ')[0];
         const el = {
           id: id,
           firstName: firstName,
           lastName: lastName,
           dob: dob,
-          active: 'false',
+          active: active,
           month: monthUser,
         };
         this.props.onAddUsers(el);
       });
-      this.filterUsers();
-    });
+      this.filterUsers(getLocal.users);
+    }
   }
-  filterUsers = () => {
+
+  filterUsers = (allUsers) => {
     let groups = Object.fromEntries(
       Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ', (group) => [
         group,
@@ -43,7 +62,7 @@ class Filter extends Component {
       ])
     );
 
-    for (let e of this.props.storeUsers) {
+    for (let e of allUsers) {
       let letter = e.firstName[0]
         .normalize('NFD')
         .replace(/[^a-z]/gi)
@@ -73,49 +92,6 @@ class Filter extends Component {
         ];
       }),
     }));
-  };
-
-  sortUserBirthday = (activeUsers) => {
-    // let reduceArray = [];
-    const users = activeUsers.reduce(
-      (obj, { id, dob, lastName, firstName }) => {
-        const customer = {
-          id: id,
-          firstName: firstName,
-          lastName: lastName,
-          dob: dob,
-        };
-        // console.log(dob);
-        // console.log(lastName);
-        // console.log(this.createDate(dob).split(' ')[0]);
-        const monthDob = this.createDate(dob).split(' ')[0];
-        console.log(monthDob);
-        if (!obj[monthDob]) obj[monthDob] = [];
-        obj[monthDob].push(customer);
-        // app.innerHTML = obj[monthDob];
-        // console.log(obj);
-        // this.setState({
-        //   filterBirthdayUsers: obj,
-        // });
-        let result = Object.value(obj);
-        console.log(result);
-
-        return obj;
-      },
-      {}
-    );
-    // let result = Object.value(users);
-    // reduceArray.push(users);
-    // this.setState({
-    //   filterBirthdayUsers: reduceArray,
-    // });
-    console.log(users);
-    // this.setState({
-    //   filterBirthdayUsers: users,
-    // });
-    // console.log(users);
-    // console.log(users);
-    // return users;
   };
 
   createDate = (date) => {
@@ -231,7 +207,7 @@ class Filter extends Component {
                                       userItem.active == 'true'
                                     ) {
                                       return (
-                                        <li style={{ 'margin-left': 30 }}>
+                                        <li style={{ marginLeft: 30 }}>
                                           <i>
                                             {userItem.firstName +
                                               ' ' +
@@ -249,33 +225,6 @@ class Filter extends Component {
                           </>
                         );
                       })}
-                      {/* {this.props.storeUsers
-                        .sort((a, b) =>
-                          new Date(a.dob) > new Date(b.dob) ? 1 : -1
-                        )
-                        .map((item) => {
-                          if (item.active == 'true') {
-                            activeUsers.push(item);
-                            this.sortUserBirthday(activeUsers);
-                            // const { users } = this.sortUserBirthday(activeUsers);
-                            console.log(this.state.filterBirthdayUsers);
-                            this.state.filterBirthdayUsers.map((item, key) => {
-                              return (
-                                <li key={key}>
-                                  <td style={{ 'min-width': 200 }}>
-                                    <b>
-                                      {item.firstName + ' ' + item.lastName}
-                                    </b>
-                                  </td>
-                                  <td>
-                                    <b>{this.createDate(item.dob) + ' year'}</b>
-                                  </td>
-                                </li>
-                              );
-                            });
-                          }
-                        })} */}
-                      {/* {console.log(activeUsers)} */}
                     </ul>
                   </tr>
                 </tbody>
