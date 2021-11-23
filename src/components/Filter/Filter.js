@@ -30,6 +30,7 @@ class Filter extends Component {
             dob: dob,
             active: 'false',
             month: monthUser,
+            selectedOption: 'false',
           };
           this.props.onAddUsers(el);
         });
@@ -38,7 +39,7 @@ class Filter extends Component {
     } else {
       const getLocal = JSON.parse(localStorage.getItem('redux-users'));
       getLocal.users.map((item) => {
-        const { id, firstName, lastName, dob, active } = item;
+        const { id, firstName, lastName, dob, active, selectedOption } = item;
         const monthUser = this.createDate(dob).split(' ')[0];
         const el = {
           id: id,
@@ -47,6 +48,7 @@ class Filter extends Component {
           dob: dob,
           active: active,
           month: monthUser,
+          selectedOption: selectedOption,
         };
         this.props.onAddUsers(el);
       });
@@ -154,6 +156,7 @@ class Filter extends Component {
                                       inputName={item.id}
                                       item={item}
                                       updateData={this.updateData}
+                                      selectedOption={item.selectedOption}
                                     />
                                   </>
                                 );
@@ -167,6 +170,7 @@ class Filter extends Component {
                                       inputName={item.id}
                                       item={item}
                                       updateData={this.updateData}
+                                      selectedOption={item.selectedOption}
                                     />
                                   </>
                                 );

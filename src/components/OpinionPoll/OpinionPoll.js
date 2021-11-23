@@ -5,7 +5,7 @@ class OpinionPoll extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: 'false',
+      selectedOption: this.props.selectedOption,
     };
   }
 
@@ -17,7 +17,9 @@ class OpinionPoll extends Component {
       lastName: lastName,
       dob: dob,
       active: e.target.value,
+      selectedOption: e.target.value,
     };
+    console.log(e.target.value);
     this.setState({ selectedOption: e.target.value });
     this.props.updateData(element);
     this.props.onChangeUsers(element);
@@ -30,7 +32,6 @@ class OpinionPoll extends Component {
         { text: 'active', value: 'true' },
       ],
     };
-
     return (
       <>
         <div>

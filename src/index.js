@@ -10,10 +10,14 @@ const initalState = {
   users: [],
 };
 
-function updateRecord(state, itemId, changeActive) {
+function updateRecord(state, itemId, changeActive, changeSelectedOption) {
   const newUsers = state.users.map((rec) => {
     if (rec.id === itemId) {
-      return { ...rec, active: changeActive };
+      return {
+        ...rec,
+        active: changeActive,
+        selectedOption: changeSelectedOption,
+      };
     }
     return rec;
   });
@@ -28,7 +32,12 @@ function employees(state = initalState, action) {
         users: [...state.users, action.payload],
       };
     case 'UPDATE_USERS':
-      return updateRecord(state, action.payload.id, action.payload.active);
+      return updateRecord(
+        state,
+        action.payload.id,
+        action.payload.active,
+        action.payload.selectedOption
+      );
 
     default:
       return state;
@@ -46,7 +55,6 @@ const store = createStore(
 );
 
 store.subscribe(() => {
-  console.log(store.getState());
   if (window.location.reload) {
     return !useLocalState(store.getState());
   }
